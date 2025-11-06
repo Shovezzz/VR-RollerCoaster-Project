@@ -881,6 +881,7 @@ GameObject:
   - component: {fileID: 1595735063}
   - component: {fileID: 1595735065}
   - component: {fileID: 1595735064}
+  - component: {fileID: 1595735067}
   m_Layer: 0
   m_Name: CartRoot
   m_TagString: Untagged
@@ -1009,10 +1010,10 @@ MonoBehaviour:
     blend: 1
     useClippedPercent: 0
     keys:
-    - _featherStart: 0.19340229034423828
+    - _featherStart: 0.1510731428861618
       _featherEnd: 0.34600791335105896
-      _centerStart: 0.3768669366836548
-      _centerEnd: 0.8932696580886841
+      _centerStart: 0.30482926964759827
+      _centerEnd: 0.8778461813926697
       interpolation:
         serializedVersion: 2
         m_Curve:
@@ -1038,9 +1039,9 @@ MonoBehaviour:
         m_PostInfinity: 2
         m_RotationOrder: 4
       blend: 1
-      speed: 4.5
+      speed: 8
       mode: 0
-    - _featherStart: 0.029999999329447746
+    - _featherStart: 0.017060983926057816
       _featherEnd: 0.1602061539888382
       _centerStart: 0.06962794810533524
       _centerEnd: 0.8775388598442078
@@ -1071,10 +1072,10 @@ MonoBehaviour:
       blend: 1
       speed: -1.5
       mode: 0
-    - _featherStart: 0.3460374176502228
+    - _featherStart: 0.3443436026573181
       _featherEnd: 0.4000000059604645
-      _centerStart: 0.0010471181012690067
-      _centerEnd: 0.9985966682434082
+      _centerStart: 0.29532015323638916
+      _centerEnd: 0.9456133842468262
       interpolation:
         serializedVersion: 2
         m_Curve:
@@ -1100,12 +1101,12 @@ MonoBehaviour:
         m_PostInfinity: 2
         m_RotationOrder: 4
       blend: 1
-      speed: 2.7
+      speed: 5
       mode: 0
-    - _featherStart: 0.40014323592185974
+    - _featherStart: 0.39967718720436096
       _featherEnd: 0.5479999780654907
-      _centerStart: 0.0005010326858609915
-      _centerEnd: 0.9691319465637207
+      _centerStart: 0.035521600395441055
+      _centerEnd: 0.8906312584877014
       interpolation:
         serializedVersion: 2
         m_Curve:
@@ -1131,11 +1132,11 @@ MonoBehaviour:
         m_PostInfinity: 2
         m_RotationOrder: 4
       blend: 1
-      speed: 3.5
+      speed: 6
       mode: 0
-    - _featherStart: 0.5523198843002319
+    - _featherStart: 0.5441765785217285
       _featherEnd: 0.6905731558799744
-      _centerStart: 0.015549869276583195
+      _centerStart: 0.11762217432260513
       _centerEnd: 0.8999999761581421
       interpolation:
         serializedVersion: 2
@@ -1162,11 +1163,11 @@ MonoBehaviour:
         m_PostInfinity: 2
         m_RotationOrder: 4
       blend: 1
-      speed: 3
+      speed: 3.7
       mode: 0
-    - _featherStart: 0.6944528222084045
-      _featherEnd: 0.9082760214805603
-      _centerStart: 0.20376472175121307
+    - _featherStart: 0.6893792152404785
+      _featherEnd: 0.909419596195221
+      _centerStart: 0.06973954290151596
       _centerEnd: 0.8999999761581421
       interpolation:
         serializedVersion: 2
@@ -1193,12 +1194,12 @@ MonoBehaviour:
         m_PostInfinity: 2
         m_RotationOrder: 4
       blend: 1
-      speed: 1.7
+      speed: 2.5
       mode: 0
-    - _featherStart: 0.9108451008796692
-      _featherEnd: 1
-      _centerStart: 0.14202867448329926
-      _centerEnd: 0
+    - _featherStart: 0.9062008261680603
+      _featherEnd: 0.9932695627212524
+      _centerStart: 0.2729106545448303
+      _centerEnd: 0.1098700612783432
       interpolation:
         serializedVersion: 2
         m_Curve:
@@ -1224,7 +1225,7 @@ MonoBehaviour:
         m_PostInfinity: 2
         m_RotationOrder: 4
       blend: 1
-      speed: 3
+      speed: 4.5
       mode: 0
   _unityOnEndReached:
     m_PersistentCalls:
@@ -1259,6 +1260,25 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &1595735067
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1595735062}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6aa76d4d59249a4fb004b181c1d7a38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FuturiftController_Handler
+  ipAddress: 127.0.0.1
+  port: 6065
+  accelerationFactor: 13.24
+  gravityFactor: 0
+  rollFactor: 0.56
+  accelerationSmoothing: 10
+  overallDamping: 5
 --- !u!1001 &1632461278
 PrefabInstance:
   m_ObjectHideFlags: 0
