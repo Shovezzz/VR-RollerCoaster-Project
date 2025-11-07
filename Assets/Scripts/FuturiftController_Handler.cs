@@ -14,7 +14,7 @@ public class FuturiftController_Handler : MonoBehaviour
     [Range(0f, 20f)]
     [SerializeField] private float accelerationFactor = 5f;
 
-    [Tooltip("Сила, с которой гравитация вжимает на подъемах")]
+    [Tooltip("Сила с которой гравитация вжимает на подъемах")]
     [Range(0f, 5f)]
     [SerializeField] private float gravityFactor = 0.5f;
 
