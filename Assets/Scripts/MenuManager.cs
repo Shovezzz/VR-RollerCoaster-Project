@@ -109,6 +109,9 @@ public class MenuManager : MonoBehaviour
         isRideFinished = true;
         mainFollower.enabled = false;
         detourFollower.enabled = false;
+        menuCanvasObject.transform.SetParent(_initialMenuParent);
+        menuCanvasObject.transform.position = _initialMenuPosition;
+        menuCanvasObject.transform.rotation = _initialMenuRotation;
         ShowMenu();
     }
 

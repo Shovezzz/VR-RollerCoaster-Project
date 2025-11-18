@@ -1,8 +1,10 @@
-using UnityEngine;
 using Dreamteck.Splines;
+using UnityEngine;
 
 public class MultiFollowerSwitcher : MonoBehaviour
 {
+    private enum PlayerChoice { None, Main, Detour }
+
     [Header("Компоненты Spline Follower")]
     public SplineFollower mainFollower;
     public SplineFollower detourFollower;
@@ -12,9 +14,10 @@ public class MultiFollowerSwitcher : MonoBehaviour
     public double returnPercentOnMain = 0.5;
 
     [Header("Интерфейс выбора")]
-    public GameObject choiceInterfaceParent; 
+    public GameObject choiceInterfaceParent;
 
-    private bool _choiceMadeThisRun = false;
+    private PlayerChoice _playerChoice = PlayerChoice.None;
+    private bool _isInChoiceZone = false;
 
     void Start()
     {
@@ -26,40 +29,73 @@ public class MultiFollowerSwitcher : MonoBehaviour
 
     public void MakeChoice(bool choseDetour)
     {
-        if (_choiceMadeThisRun) return;
+        if (!_isInChoiceZone || _playerChoice != PlayerChoice.None) return;
 
-        _choiceMadeThisRun = true;
+        if (choseDetour)
+        {
+            _playerChoice = PlayerChoice.Detour;
+            Debug.Log("Выбор игрока ЗАПОМНЕН: Обходной путь");
+        }
+        else
+        {
+            _playerChoice = PlayerChoice.Main;
+            Debug.Log("Выбор игрока ЗАПОМНЕН: Основной путь");
+        }
 
         if (choiceInterfaceParent != null)
         {
             choiceInterfaceParent.SetActive(false);
         }
-
-        if (choseDetour)
-        {
-            Debug.Log("Игрок выбрал ОБХОДНОЙ путь");
-            SwitchToDetour();
-        }
-        else
-        {
-            Debug.Log("Игрок выбрал ОСНОВНОЙ путь");
-        }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("SwitchToDetour"))
+        if (other.CompareTag("SwitchToDetour")) 
         {
-            _choiceMadeThisRun = false; 
+            _isInChoiceZone = true;
+            _playerChoice = PlayerChoice.None; 
             if (choiceInterfaceParent != null)
             {
                 choiceInterfaceParent.SetActive(true);
             }
         }
 
+
+        if (other.CompareTag("ExecuteSwitchZone"))
+        {
+            ExecuteSwitch();
+        }
+
         if (other.CompareTag("SwitchBackToMain") && detourFollower.enabled)
         {
             SwitchToMain();
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("SwitchToDetour"))
+        {
+            _isInChoiceZone = false;
+            Debug.Log("Вышли из зоны выбора.");
+        }
+    }
+
+    private void ExecuteSwitch()
+    {
+        if (choiceInterfaceParent != null)
+        {
+            choiceInterfaceParent.SetActive(false);
+        }
+
+        if (_playerChoice == PlayerChoice.Detour)
+        {
+            Debug.Log("ВЫПОЛНЯЕМ переключение на обходной путь!");
+            SwitchToDetour();
+        }
+        else
+        {
+            Debug.Log("ВЫПОЛНЯЕМ переключение: остаемся на основном пути.");
         }
     }
     private void SwitchToDetour()

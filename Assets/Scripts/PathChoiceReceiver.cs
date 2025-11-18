@@ -31,6 +31,8 @@ public class PathChoiceReceiver : MonoBehaviour
 
     private void OnSelected(SelectEnterEventArgs args)
     {
+        Debug.Log("КЛИК ЗАРЕГИСТРИРОВАН на объекте: " + gameObject.name +
+              ". Выбран обходной путь: " + isDetourPathTarget);
         switcher.MakeChoice(isDetourPathTarget);
     }
 }
