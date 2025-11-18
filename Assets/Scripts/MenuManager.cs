@@ -1,37 +1,48 @@
 using UnityEngine;
 using TMPro;
-using Dreamteck.Splines;
 using UnityEngine.UI;
+using Dreamteck.Splines;
+
 
 public class MenuManager : MonoBehaviour
 {
     [Header("Ссылки на объекты")]
     public SplineFollower mainFollower;
     public SplineFollower detourFollower;
+    public Transform cameraTransform;
 
     [Header("UI Элементы")]
+    public GameObject menuCanvasObject; 
     public Button startButton;
     public TextMeshProUGUI startButtonText;
 
+    [Header("Настройки")]
+    public float menuDistance = 2f;
+
+    private Vector3 _initialMenuPosition;
+    private Quaternion _initialMenuRotation;
+    private Transform _initialMenuParent;
+
     private bool isPaused = false;
     private bool isRideFinished = false;
-
     private SplineFollower _activeFollowerBeforePause;
 
     void Start()
     {
-        gameObject.SetActive(true);
+        _initialMenuParent = menuCanvasObject.transform.parent;
+        _initialMenuPosition = menuCanvasObject.transform.position;
+        _initialMenuRotation = menuCanvasObject.transform.rotation;
+
         SetupMenuForNewGame();
     }
-
-    void Update()
+    private void OnTriggerEnter(Collider other)
     {
-        if (!isRideFinished && mainFollower.enabled && mainFollower.result.percent >= 0.999)
+        if (other.CompareTag("FinishZone") && !isRideFinished)
         {
+            Debug.Log("Въехали в финишную зону!");
             FinishRide();
         }
     }
-
     public void OnStartButtonPressed()
     {
         if (isRideFinished) RestartRide();
@@ -52,16 +63,9 @@ public class MenuManager : MonoBehaviour
         if (isRideFinished || (!mainFollower.enabled && !detourFollower.enabled && !isPaused)) return;
 
         isPaused = !isPaused;
-        if (isPaused)
-        {
-            PauseRide();
-        }
-        else
-        {
-            ResumeRide();
-        }
+        if (isPaused) PauseRide();
+        else ResumeRide();
     }
-
     private void StartRide()
     {
         HideMenu();
@@ -70,18 +74,16 @@ public class MenuManager : MonoBehaviour
 
     private void PauseRide()
     {
-        if (mainFollower.enabled)
-        {
-            _activeFollowerBeforePause = mainFollower;
-        }
-        else if (detourFollower.enabled)
-        {
-            _activeFollowerBeforePause = detourFollower;
-        }
+        if (mainFollower.enabled) _activeFollowerBeforePause = mainFollower;
+        else if (detourFollower.enabled) _activeFollowerBeforePause = detourFollower;
 
         Time.timeScale = 0f;
         mainFollower.enabled = false;
         detourFollower.enabled = false;
+
+        menuCanvasObject.transform.SetParent(cameraTransform);
+        menuCanvasObject.transform.localPosition = new Vector3(0, 0, menuDistance);
+        menuCanvasObject.transform.localRotation = Quaternion.identity;
         ShowMenu();
     }
 
@@ -98,12 +100,12 @@ public class MenuManager : MonoBehaviour
         {
             mainFollower.enabled = true;
         }
-
         isPaused = false;
     }
 
     private void FinishRide()
     {
+        Debug.Log("Функция FinishRide вызвана!");
         isRideFinished = true;
         mainFollower.enabled = false;
         detourFollower.enabled = false;
@@ -113,13 +115,13 @@ public class MenuManager : MonoBehaviour
     private void RestartRide()
     {
         isRideFinished = false;
-        SetupMenuForNewGame(); 
+        SetupMenuForNewGame();
         StartRide();
     }
 
     private void ShowMenu()
     {
-        gameObject.SetActive(true);
+        menuCanvasObject.SetActive(true);
         if (isRideFinished)
         {
             startButtonText.text = "Начать заново";
@@ -132,6 +134,10 @@ public class MenuManager : MonoBehaviour
 
     private void SetupMenuForNewGame()
     {
+        menuCanvasObject.transform.SetParent(_initialMenuParent);
+        menuCanvasObject.transform.position = _initialMenuPosition;
+        menuCanvasObject.transform.rotation = _initialMenuRotation;
+
         mainFollower.enabled = false;
         detourFollower.enabled = false;
         mainFollower.SetPercent(0.0);
@@ -141,10 +147,11 @@ public class MenuManager : MonoBehaviour
         isPaused = false;
         isRideFinished = false;
         Time.timeScale = 1f;
+        menuCanvasObject.SetActive(true); 
     }
 
     private void HideMenu()
     {
-        gameObject.SetActive(false);
+        menuCanvasObject.SetActive(false);
     }
 }

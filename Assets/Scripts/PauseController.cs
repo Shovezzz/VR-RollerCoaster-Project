@@ -12,7 +12,7 @@ public class PauseController : MonoBehaviour
 
     void Awake()
     {
-        _menuAction = actionAsset.FindActionMap("XRI LeftHand").FindAction("Menu");
+        _menuAction = actionAsset.FindActionMap("XRI Left Interaction").FindAction("Menu");
         if (menuManager == null)
         {
             Debug.LogError("MenuManager не назначен в PauseController");
