@@ -3,30 +3,84 @@ using Bhaptics.SDK2;
 
 public class BHaptics_Handler : MonoBehaviour
 {
-    // === КОНСТАНТЫ ДЛЯ ИМЕН СОБЫТИЙ ===
-    // Позже добавлять сюда новые имена.
-    private const string RUMBLE_EVENT = "TrackRumble";
-    private const string WATER_SPLASH_EVENT = "WaterSplash"; 
-    private const string WIND_RUSH_EVENT = "WindRush"; 
-
-    private string _currentLoopingEffect = "";
+    private string _currentLoopingEvent = "";
 
     private void OnTriggerEnter(Collider other)
     {
-        // Если въехали в зону тряски
-        if (other.CompareTag("RumbleZone"))
+        // 1. ЦИКЛИЧНЫЕ ЭФФЕКТЫ
+        // Играют пока мы внутри триггера
+
+        if (other.CompareTag("Haptic_Lift"))
         {
-            BhapticsLibrary.PlayLoop(RUMBLE_EVENT);
+            PlayLoop("liftchain");
         }
-        // Здесь добавлять другие зоны
+        else if (other.CompareTag("Haptic_Wind"))
+        {
+            PlayLoop("wind_fast");
+        }
+
+        // 2. РАЗОВЫЕ ЭФФЕКТЫ
+        // Играют один раз при входе
+
+        else if (other.CompareTag("Haptic_Drop"))
+        {
+            BhapticsLibrary.Play("gforce_drop");
+        }
+        else if (other.CompareTag("Haptic_TurnLeft"))
+        {
+            BhapticsLibrary.Play("turn_force_left");
+        }
+        else if (other.CompareTag("Haptic_TurnRight"))
+        {
+            BhapticsLibrary.Play("turn_force_right");
+        }
+        else if (other.CompareTag("Haptic_Boost"))
+        {
+            BhapticsLibrary.Play("nitro_boost");
+        }
+        else if (other.CompareTag("Haptic_Brake"))
+        {
+            BhapticsLibrary.Play("hard_brake");
+        }
+        else if (other.CompareTag("Haptic_Bird"))
+        {
+            BhapticsLibrary.Play("bird_flyby");
+        }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("RumbleZone") && _currentLoopingEffect == RUMBLE_EVENT)
+        if (other.CompareTag("Haptic_Lift") && _currentLoopingEvent == "liftchain")
         {
-            BhapticsLibrary.StopByEventId(RUMBLE_EVENT);
+            StopLoop();
         }
-        // Здесь добавлять другие зоны
+        if (other.CompareTag("Haptic_Wind") && _currentLoopingEvent == "wind_Fast")
+        {
+            StopLoop();
+        }
+    }
+
+    private void PlayLoop(string eventName)
+    {
+        StopLoop();
+
+        BhapticsLibrary.PlayLoop(eventName);
+        _currentLoopingEvent = eventName;
+    }
+
+    private void StopLoop()
+    {
+        if (!string.IsNullOrEmpty(_currentLoopingEvent))
+        {
+            BhapticsLibrary.StopByEventId(_currentLoopingEvent);
+            _currentLoopingEvent = "";
+        }
+    }
+
+    // вызвать эту функцию из MenuManager при паузе или финише, чтобы остановить вибрацию
+    public void StopAllHaptics()
+    {
+        BhapticsLibrary.StopAll();
+        _currentLoopingEvent = "";
     }
 }

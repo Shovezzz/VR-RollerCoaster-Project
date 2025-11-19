@@ -4,11 +4,19 @@
 TagManager:
   serializedVersion: 3
   tags:
-  - RumbleZone
   - SwitchToDetour
   - SwitchBackToMain
   - FinishZone
   - ExecuteSwitchZone
+  - Haptic_Lift
+  - Haptic_Wind
+  - Haptic_Drop
+  - Haptic_TurnLeft
+  - Haptic_TurnRight
+  - Haptic_Boost
+  - Haptic_Brake
+  - Haptic_Bird
+  - CartRoot
   layers:
   - Default
   - TransparentFX

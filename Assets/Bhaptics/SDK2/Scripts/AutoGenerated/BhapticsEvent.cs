@@ -17,6 +17,20 @@ namespace Bhaptics.SDK2
     public class BhapticsEvent
     {
         
-        public const string TEST = "test";
+        public const string LIFTCHAIN = "liftchain";
+        
+        public const string TURN_FORCE_RIGHT = "turn_force_right";
+        
+        public const string TURN_FORCE_LEFT = "turn_force_left";
+        
+        public const string GFORCE_DROP = "gforce_drop";
+        
+        public const string HARD_BRAKE = "hard_brake";
+        
+        public const string NITRO_BOOST = "nitro_boost";
+        
+        public const string BIRD_FLYBY = "bird_flyby";
+        
+        public const string WIND_FAST = "wind_fast";
     }
 }

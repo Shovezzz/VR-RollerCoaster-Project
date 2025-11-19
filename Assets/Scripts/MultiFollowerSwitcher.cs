@@ -29,7 +29,7 @@ public class MultiFollowerSwitcher : MonoBehaviour
 
     public void MakeChoice(bool choseDetour)
     {
-        if (!_isInChoiceZone || _playerChoice != PlayerChoice.None) return;
+        if (_playerChoice != PlayerChoice.None) return;
 
         if (choseDetour)
         {
@@ -52,17 +52,21 @@ public class MultiFollowerSwitcher : MonoBehaviour
     {
         if (other.CompareTag("SwitchToDetour")) 
         {
+            if (_isInChoiceZone) return;
+
             _isInChoiceZone = true;
             _playerChoice = PlayerChoice.None; 
+
             if (choiceInterfaceParent != null)
             {
                 choiceInterfaceParent.SetActive(true);
             }
+            Debug.Log("Въехали в зону выбора (Показ стрелок)");
         }
 
-
-        if (other.CompareTag("ExecuteSwitchZone"))
+        if (other.CompareTag("ExecuteSwitchZone")) 
         {
+            Debug.Log("Въехали в зону переключения. Текущий выбор: " + _playerChoice);
             ExecuteSwitch();
         }
 
@@ -76,13 +80,14 @@ public class MultiFollowerSwitcher : MonoBehaviour
     {
         if (other.CompareTag("SwitchToDetour"))
         {
-            _isInChoiceZone = false;
-            Debug.Log("Вышли из зоны выбора.");
+            Debug.Log("Вышли из триггера показа стрелок (но выбор все еще можно сделать).");
         }
     }
 
     private void ExecuteSwitch()
     {
+        _isInChoiceZone = false;
+
         if (choiceInterfaceParent != null)
         {
             choiceInterfaceParent.SetActive(false);
