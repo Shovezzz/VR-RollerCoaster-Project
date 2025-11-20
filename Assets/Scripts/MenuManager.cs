@@ -78,6 +78,7 @@ public class MenuManager : MonoBehaviour
         else if (detourFollower.enabled) _activeFollowerBeforePause = detourFollower;
 
         Time.timeScale = 0f;
+        AudioListener.pause = true;
         mainFollower.enabled = false;
         detourFollower.enabled = false;
 
@@ -91,6 +92,7 @@ public class MenuManager : MonoBehaviour
     {
         HideMenu();
         Time.timeScale = 1f;
+        AudioListener.pause = false;
 
         if (_activeFollowerBeforePause != null)
         {
@@ -150,7 +152,8 @@ public class MenuManager : MonoBehaviour
         isPaused = false;
         isRideFinished = false;
         Time.timeScale = 1f;
-        menuCanvasObject.SetActive(true); 
+        menuCanvasObject.SetActive(true);
+        AudioListener.pause = false;
     }
 
     private void HideMenu()
